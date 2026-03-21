@@ -9,7 +9,7 @@ export default defineConfig({
   // Usa '/' si tu repo es el principal (gersonwil.github.io) 
   // o '/nombre-del-repo/' si es un proyecto secundario.
   // Evita './' en producción con routers de React.
-  base: '/', 
+  base: '/portafolio/',
   
   plugins: [
     inspectAttr(), 
