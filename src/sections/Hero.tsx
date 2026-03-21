@@ -21,7 +21,7 @@ import {
 
 const FlutterIcon = () => (
   <img
-    src="/flutter.png"
+    src="flutter.png"
     alt="Flutter Logo"
     className="w-8 h-7 object-contain drop-shadow-md rounded-sm"
   />
@@ -29,7 +29,7 @@ const FlutterIcon = () => (
 
 const LaravelIcon = () => (
   <img
-    src="/laravel.png"
+    src="laravel.png"
     alt="Flutter Logo"
     className="w-8 h-8 object-contain drop-shadow-md rounded-sm"
   />
@@ -37,7 +37,7 @@ const LaravelIcon = () => (
 
 const PHPIcon = () => (
   <img
-    src="/postgrest.png"
+    src="postgrest.png"
     alt="Flutter Logo"
     className="w-8 h-8 object-contain drop-shadow-md rounded-sm"
   />
@@ -45,7 +45,7 @@ const PHPIcon = () => (
 
 const NodeIcon = () => (
   <img
-    src="/node.png"
+    src="node.png"
     alt="Flutter Logo"
     className="w-8 h-8 object-contain drop-shadow-md rounded-sm"
   />
@@ -53,7 +53,7 @@ const NodeIcon = () => (
 
 const ReactIcon = () => (
   <img
-    src="/postman.png"
+    src="postman.png"
     alt="Flutter Logo"
     className="w-8 h-8 object-contain drop-shadow-md rounded-sm"
   />
@@ -67,7 +67,7 @@ const JSIcon = () => (
 
 const DartIcon = () => (
   <img
-    src="/dart.png"
+    src="dart.png"
     alt="Flutter Logo"
     className="w-8 h-8 object-contain drop-shadow-md rounded-sm"
   />
@@ -76,7 +76,7 @@ const DartIcon = () => (
 const JavaIcon = () => (
 
   <img
-    src="/java.png"
+    src="java.png"
     alt="Flutter Logo"
     className="w-9 h-9 object-contain drop-shadow-md rounded-sm"
   />
