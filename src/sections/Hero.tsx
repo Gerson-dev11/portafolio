@@ -347,7 +347,7 @@ export function Hero() {
               {/* Photo Container */}
               <div className="relative w-72 h-96 sm:w-80 sm:h-[28rem] lg:w-96 lg:h-[32rem] rounded-[2.5rem] overflow-hidden border-2 border-primary/20 shadow-2xl backdrop-blur-sm">
                 <img
-                  src="/gerson.jpg"
+                  src="gerson.jpg"
                   alt="Gerson Wilfredo Franco Gámez"
                   className="w-full h-full object-cover grayscale-[15%] hover:grayscale-0 transition-all duration-700 ease-in-out"
                 />
