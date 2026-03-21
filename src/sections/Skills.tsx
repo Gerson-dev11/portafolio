@@ -20,38 +20,38 @@ import {
 const TechIcons: Record<string, () => React.ReactElement> = {
   // --- Tecnologías con archivos en /public ---
   Flutter: () => (
-    <img src="/flutter.png" alt="Flutter" className="w-8 h-8 object-contain" />
+    <img src="flutter.png" alt="Flutter" className="w-8 h-8 object-contain" />
   ),
   Dart: () => (
-    <img src="/dart.png" alt="Dart" className="w-8 h-8 object-contain" />
+    <img src="dart.png" alt="Dart" className="w-8 h-8 object-contain" />
   ),
   Laravel: () => (
-    <img src="/laravel.png" alt="Laravel" className="w-8 h-8 object-contain" />
+    <img src="laravel.png" alt="Laravel" className="w-8 h-8 object-contain" />
   ),
   'Node.js': () => (
-    <img src="/node.png" alt="Node.js" className="w-8 h-8 object-contain" />
+    <img src="node.png" alt="Node.js" className="w-8 h-8 object-contain" />
   ),
   PostgreSQL: () => (
-    <img src="/postgrest.png" alt="PostgreSQL" className="w-8 h-8 object-contain" />
+    <img src="postgrest.png" alt="PostgreSQL" className="w-8 h-8 object-contain" />
   ),
   Postman: () => (
-    <img src="/postman.png" alt="Postman" className="w-8 h-8 object-contain" />
+    <img src="postman.png" alt="Postman" className="w-8 h-8 object-contain" />
   ),
   Java: () => (
-    <img src="/java.png" alt="Java" className="w-9 h-9 object-contain" />
+    <img src="java.png" alt="Java" className="w-9 h-9 object-contain" />
   ),
   React: () => (
-    <img src="/postman.png" alt="React" className="w-8 h-8 object-contain" />
+    <img src="postman.png" alt="React" className="w-8 h-8 object-contain" />
   ),
  
   JavaScript: () => (
-    <img src="/javascript.png" alt="JavaScript" className="w-8 h-8 object-contain" />
+    <img src="javascript.png" alt="JavaScript" className="w-8 h-8 object-contain" />
   ),
   HTML5: () => (
-    <img src="/html5.png" alt="HTML5" className="w-8 h-8 object-contain" />
+    <img src="html5.png" alt="HTML5" className="w-8 h-8 object-contain" />
   ),
   CSS3: () => (
-    <img src="/css3.png" alt="CSS3" className="w-8 h-8 object-contain" />
+    <img src="css3.png" alt="CSS3" className="w-8 h-8 object-contain" />
   ),
   'Provider/BLoC': () => (
     <svg viewBox="0 0 24 24" className="w-8 h-8" fill="#3B82F6">

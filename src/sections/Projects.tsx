@@ -159,7 +159,7 @@ const projects = [
       'Sistema completo de facturación electrónica con consumidor final y crédito fiscal, incluyendo notas de crédito.',
     longDescription:
       'Sistema de facturación desarrollado para el Bazar Sandri que permite facturación electrónica para consumidor final y crédito fiscal, con soporte para notas de crédito. La aplicación de escritorio fue desarrollada en Flutter y Node.js usando arquitectura MVC, garantizando rapidez y eficiencia. Hosting desplegado en DigitalOcean. Mi rol fue Full Stack, desarrollando prácticamente todo el sistema.',
-    image: '/bazarsandri.png',
+    image: 'bazarsandri.png',
     category: 'fullstack',
     technologies: ['Flutter', 'Dart', 'Node.js', 'PostgreSQL', 'DigitalOcean', 'MVC'],
     features: [
@@ -215,7 +215,7 @@ const projects = [
       'Plataforma educativa con IA para psicología, con app móvil para clientes y desktop para administradores.',
     longDescription:
       'Plataforma educativa desarrollada para ITCA FEPADE que ayuda en el seguimiento psicológico de estudiantes. Incluye ejercicios interactivos, libro personal y monitoreo de estudiantes. Utiliza Firebase y Supabase como base de datos mixta (nube y local). Mi rol fue Full Stack, realizando el refactor completo de la aplicación para optimizar su rendimiento.',
-    image: '/itca.png',
+    image: 'itca.png',
     category: 'fullstack',
     technologies: ['Flutter', 'Dart', 'Firebase', 'Supabase', 'REST API'],
     features: [
@@ -244,7 +244,7 @@ const projects = [
       'Sistema de gestión de encomiendas que enseñó el manejo de APIs con Laravel, JWT y Sanctum.',
     longDescription:
       'Proyecto de encomiendas que, aunque no finalizó por problemas con el cliente, fue una experiencia fundamental para aprender el manejo de creación de APIs con Laravel, implementación de autenticación con JWT y Sanctum. Este proyecto sentó las bases para futuros desarrollos backend robustos.',
-    image: '/max.png',
+    image: 'max.png',
     category: 'backend',
     technologies: ['Laravel', 'PHP', 'JWT', 'Sanctum', 'MySQL', 'REST API'],
     features: [
@@ -272,7 +272,7 @@ const projects = [
       'Plataforma de alquiler de vehículos con IA Azure, AWS, pagos Wompi y autenticación 2FA.',
     longDescription:
       'Aplicación móvil que permite a empresas de alquiler de vehículos gestionar su flota y a clientes realizar reservas. Implementa IA de Azure para validación de documentos de identidad, AWS S3 para almacenamiento de rostros y verificación biométrica, autenticación en 2 pasos, Clean Architecture, Material Design, y pagos con Wompi mediante webhooks. Backend desplegado en Render.',
-    image: '/rideandbuy.png',
+    image: 'rideandbuy.png',
     category: 'fullstack',
     technologies: [
       'Flutter', 'Dart', 'Java', 'Azure AI', 'AWS', 'Wompi', 
