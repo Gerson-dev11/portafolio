@@ -1,243 +1,151 @@
 import { useEffect, useRef, useState } from 'react';
+import { motion } from 'framer-motion';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { FaDocker, FaLaravel, FaFlutter, FaDartLang, FaDigitalOcean, FaGitAlt } from "react-icons/fa6";
+import { SiPostman, SiMysql } from "react-icons/si";
+import { BiLogoPostgresql } from "react-icons/bi";
+import { RiNodejsLine, RiSupabaseLine } from "react-icons/ri";
+import { IoLogoFirebase } from "react-icons/io5";
+
 import {
-  Layers,
   Smartphone,
-  Palette,
   Code2,
-  GitBranch,
-  Star,
-  TrendingUp,
-  Zap,
-  Shield,
   Server,
   Cloud,
+  Database,
+  Terminal,
+  Activity,
+  Boxes,
+  ShieldCheck,
+  Workflow,
+  Clock,
+  Gauge,
+  CheckCircle,
+  Zap,
 } from 'lucide-react';
 
-// SVG Icons for technologies
+// Mapeo de Iconos
 const TechIcons: Record<string, () => React.ReactElement> = {
-  // --- Tecnologías con archivos en /public ---
-  Flutter: () => (
-    <img src="flutter.png" alt="Flutter" className="w-8 h-8 object-contain" />
-  ),
-  Dart: () => (
-    <img src="dart.png" alt="Dart" className="w-8 h-8 object-contain" />
-  ),
-  Laravel: () => (
-    <img src="laravel.png" alt="Laravel" className="w-8 h-8 object-contain" />
-  ),
-  'Node.js': () => (
-    <img src="node.png" alt="Node.js" className="w-8 h-8 object-contain" />
-  ),
-  PostgreSQL: () => (
-    <img src="postgrest.png" alt="PostgreSQL" className="w-8 h-8 object-contain" />
-  ),
-  Postman: () => (
-    <img src="postman.png" alt="Postman" className="w-8 h-8 object-contain" />
-  ),
-  Java: () => (
-    <img src="java.png" alt="Java" className="w-9 h-9 object-contain" />
-  ),
-  React: () => (
-    <img src="postman.png" alt="React" className="w-8 h-8 object-contain" />
-  ),
- 
-  JavaScript: () => (
-    <img src="javascript.png" alt="JavaScript" className="w-8 h-8 object-contain" />
-  ),
-  HTML5: () => (
-    <img src="html5.png" alt="HTML5" className="w-8 h-8 object-contain" />
-  ),
-  CSS3: () => (
-    <img src="css3.png" alt="CSS3" className="w-8 h-8 object-contain" />
-  ),
-  'Provider/BLoC': () => (
-    <svg viewBox="0 0 24 24" className="w-8 h-8" fill="#3B82F6">
-      <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" strokeWidth="2" fill="none" />
-    </svg>
-  ),
-  Git: () => (
-    <svg viewBox="0 0 24 24" className="w-8 h-8" fill="#F05032">
-      <path d="M23.546 10.93L13.067.452c-.604-.603-1.582-.603-2.188 0L8.708 2.627l2.76 2.76c.645-.215 1.379-.07 1.889.441.516.515.658 1.258.438 1.9l2.652 2.66c.645-.223 1.387-.078 1.9.435.721.72.721 1.884 0 2.604-.719.719-1.881.719-2.6 0-.539-.541-.674-1.337-.404-1.996L12.86 8.955v6.525c.176.086.342.203.488.348.713.721.713 1.883 0 2.6-.719.721-1.889.721-2.609 0-.719-.719-.719-1.879 0-2.598.182-.18.387-.316.605-.406V8.835c-.217-.091-.424-.222-.6-.401-.545-.545-.678-1.342-.396-2.009L7.611 3.527 4.645 6.491c-.603.605-.603 1.585 0 2.189l10.48 10.477c.604.604 1.582.604 2.186 0l6.232-6.227c.605-.603.605-1.582 0-2.187z" />
-    </svg>
-  ),
-  GitHub: () => (
-    <svg viewBox="0 0 24 24" className="w-8 h-8" fill="#ffffff">
-      <path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z" />
-    </svg>
-  ),
-  DigitalOcean: () => (
-    <svg viewBox="0 0 24 24" className="w-8 h-8" fill="#0080FF">
-      <path d="M12 0C5.372 0 0 5.372 0 12c0 6.628 5.372 12 12 12s12-5.372 12-12S18.628 0 12 0zm0 22.5c-5.799 0-10.5-4.701-10.5-10.5S6.201 1.5 12 1.5 22.5 6.201 22.5 12 17.799 22.5 12 22.5z" />
-      <path d="M12 6.75v5.25l4.5 2.25" stroke="white" strokeWidth="1.5" fill="none" />
-    </svg>
-  ),
-  Vercel: () => (
-    <svg viewBox="0 0 24 24" className="w-8 h-8" fill="#ffffff">
-      <path d="M12 2L22 21H2L12 2z" />
-    </svg>
-  ),
-  Netlify: () => (
-    <svg viewBox="0 0 24 24" className="w-8 h-8" fill="#00C7B7">
-      <path d="M12 0L0 12l12 12 12-12L12 0z" />
-    </svg>
-  ),
+  Flutter: () => <FaFlutter className='w-5 h-5 text-[#0075d5]' />,
+  Dart: () => <FaDartLang className='w-5 h-5 text-[#0075d5]' />,
+  Laravel: () => <FaLaravel className='w-5 h-5 text-[#ff634b]' />,
+  'Node.js': () => <RiNodejsLine className='w-5 h-5 text-[#73d12b]' />,
+  PostgreSQL: () => <BiLogoPostgresql className='w-5 h-5 text-[#728dd2]' />,
+  MySQL: () => <SiMysql className="w-5 h-5 text-[#728dd2]" />,
+  Postman: () => <SiPostman className="w-5 h-4 text-[#EF5B25]" />,
+  Docker: () => <FaDocker className="w-5 h-5 text-[#2496ED]" />,
+  Git: () => <FaGitAlt className='w-5 h-5 text-[#F1502F]' />,
+  DigitalOcean: () => <FaDigitalOcean className='w-5 h-5 text-[#0075d5]' />,
+  Supabase: () => <RiSupabaseLine className='w-5 h-5 text-[#3ECF8E]' />,
+  Firebase: () => <IoLogoFirebase className='w-5 h-5 text-[#FFC400]' />,
 };
 
-// Componente de gráfico de pastel (Donut) con animación mejorada
-const DonutChart = ({ percentage, color, size = 100, isAnimating }: { percentage: number; color: string; size?: number; isAnimating: boolean }) => {
-  const radius = size * 0.4;
-  const circumference = 2 * Math.PI * radius;
-  const [currentPercentage, setCurrentPercentage] = useState(0);
+interface SkillItem {
+  name: string;
+  category: 'backend' | 'mobile' | 'cloud' | 'db';
+  role: string;
+  architecture?: string;
+  tags: string[];
+}
 
-  useEffect(() => {
-    if (isAnimating) {
-      // Animación progresiva del porcentaje
-      let startTime: number;
-      const duration = 1500;
-      
-      const animate = (timestamp: number) => {
-        if (!startTime) startTime = timestamp;
-        const elapsed = timestamp - startTime;
-        const progress = Math.min(1, elapsed / duration);
-        const easedProgress = 1 - Math.pow(1 - progress, 3); // Cubic ease out
-        setCurrentPercentage(percentage * easedProgress);
-        
-        if (progress < 1) {
-          requestAnimationFrame(animate);
-        }
-      };
-      
-      requestAnimationFrame(animate);
-    } else {
-      setCurrentPercentage(0);
-    }
-  }, [percentage, isAnimating]);
-
-  const offset = circumference - (currentPercentage / 100) * circumference;
-
-  return (
-    <div className="relative" style={{ width: size, height: size }}>
-      <svg className="transform -rotate-90" width={size} height={size}>
-        {/* Círculo de fondo con animación de brillo */}
-        <circle
-          cx={size / 2}
-          cy={size / 2}
-          r={radius}
-          fill="none"
-          stroke="rgba(255,255,255,0.1)"
-          strokeWidth="8"
-        />
-        {/* Círculo de progreso con animación de glow */}
-        <circle
-          cx={size / 2}
-          cy={size / 2}
-          r={radius}
-          fill="none"
-          stroke={color}
-          strokeWidth="8"
-          strokeLinecap="round"
-          strokeDasharray={circumference}
-          strokeDashoffset={offset}
-          className="transition-all duration-200 ease-out"
-          style={{
-            filter: `drop-shadow(0 0 8px ${color}80)`,
-          }}
-        />
-      </svg>
-      {/* Animación de pulso en el borde */}
-      <div 
-        className="absolute inset-0 rounded-full animate-ping-slow pointer-events-none"
-        style={{ 
-          boxShadow: `0 0 20px ${color}40`,
-          opacity: 0.3
-        }}
-      />
-    </div>
-  );
-};
-
-const skillCategories = [
-  {
-    id: 'mobile',
-    label: 'Mobile Development',
-    icon: Smartphone,
-    color: '#02569B',
-    description: 'Especialista en aplicaciones nativas y multiplataforma con alto rendimiento.',
-    skills: [
-      { name: 'Flutter', level: 85 },
-      { name: 'Dart', level: 90 },
-    ],
+const skillsMatrix: SkillItem[] = [
+  { 
+    name: 'Node.js', 
+    category: 'backend', 
+    role: 'APIs REST & Facturación Hacienda', 
+    architecture: 'MVC',
+    tags: ['Nodemailer', 'PDFKit', 'Schedules', 'DTE Hacienda'] 
   },
-  {
-    id: 'frontend',
-    label: 'Frontend Web',
-    icon: Palette,
-    color: '#61DAFB',
-    description: 'Interfaces reactivas, modernas y optimizadas para la mejor experiencia de usuario.',
-    skills: [
-      { name: 'React', level: 70 },
-      { name: 'JavaScript', level: 75 },
-       { name: 'HTML5', level: 95 },
-      { name: 'CSS3', level: 80 },
-    ],
+  { 
+    name: 'Laravel', 
+    category: 'backend', 
+    role: 'APIs REST & Módulos de Seguridad', 
+    architecture: 'Clean Arch / MVC',
+    tags: ['Sanctum', 'Auth Security', 'API Endpoints', 'Docker Env'] 
   },
-  {
-    id: 'backend',
-    label: 'Backend & Data',
-    icon: Server,
-    color: '#FF2D20',
-    description: 'Arquitecturas robustas, APIs escalables y gestión eficiente de datos.',
-    skills: [
-      { name: 'Laravel', level: 65 },
-      { name: 'Node.js', level: 85 },
-      { name: 'PostgreSQL', level: 60 },
-      { name: 'Java', level: 60 },
-      { name: 'Postman', level: 85 },
-    ],
+  { 
+    name: 'Flutter', 
+    category: 'mobile', 
+    role: 'Diseño UI Multiplataforma & Layouts', 
+    architecture: 'MVVM',
+    tags: ['Custom UI', 'Cards & Feeds', 'Chat Interfaces', 'Desktop & Mobile'] 
   },
-  {
-    id: 'cloud',
-    label: 'Cloud & DevOps',
-    icon: Cloud,
-    color: '#007BFF',
-    description: 'Despliegue continuo y gestión de servicios en la nube para alta disponibilidad.',
-    skills: [
-      { name: 'DigitalOcean', level: 75 },
-      { name: 'Netlify', level: 60 },
-      { name: 'Git', level: 75 },
-      { name: 'GitHub', level: 75 },
-    ],
+  { 
+    name: 'Dart', 
+    category: 'mobile', 
+    role: 'Lógica de Negocio & Programación Reactiva', 
+    architecture: 'Clean Architecture',
+    tags: ['POO', 'State Management', 'Clean Code', 'Desacoplado'] 
+  },
+  { 
+    name: 'PostgreSQL', 
+    category: 'db', 
+    role: 'Modelado Relacional Avanzado', 
+    tags: ['Vistas (Views)', 'Consultas Complejas', 'Triggers', 'Creación DDL'] 
+  },
+  { 
+    name: 'MySQL', 
+    category: 'db', 
+    role: 'Gestión de Bases de Datos POS / ERP', 
+    tags: ['Consultas SQL', 'Optimización', 'Relaciones', 'Integración API'] 
+  },
+  { 
+    name: 'DigitalOcean', 
+    category: 'cloud', 
+    role: 'Infraestructura Cloud & Despliegue', 
+    tags: ['VPS Droplets', 'Deploy Prod', 'Nginx Config', 'Hosting'] 
+  },
+  { 
+    name: 'Docker', 
+    category: 'cloud', 
+    role: 'Contenedores y Entornos de Dev', 
+    tags: ['Manejo de Imágenes', 'Laravel Docker', 'Entornos Aislados'] 
+  },
+  { 
+    name: 'Git', 
+    category: 'cloud', 
+    role: 'Control de Versiones & Trabajo en Equipo', 
+    tags: ['GitFlow', 'Manejo de Ramas', 'Commits Estructurados'] 
+  },
+  { 
+    name: 'Postman', 
+    category: 'backend', 
+    role: 'Pruebas de Integración y Documentación', 
+    tags: ['API Testing', 'Colecciones', 'Enviroments', 'Pruebas Endpoint'] 
+  },
+  { 
+    name: 'Supabase', 
+    category: 'db', 
+    role: 'Backend as a Service (Plus)', 
+    tags: ['Realtime DB', 'Auth', 'PostgreSQL Cloud'] 
+  },
+  { 
+    name: 'Firebase', 
+    category: 'db', 
+    role: 'Servicios en la Nube (Plus)', 
+    tags: ['Firestore', 'Authentication', 'Cloud Messaging'] 
   },
 ];
 
-const technologies = [
-  { name: 'Flutter', icon: TechIcons.Flutter, color: '#02569B' },
-  { name: 'Dart', icon: TechIcons.Dart, color: '#0175C2' },
-  { name: 'React', icon: TechIcons.React, color: '#61DAFB' },
-   { name: 'JavaScript', icon: TechIcons.JavaScript, color: '#F7DF1E' },
-  { name: 'Laravel', icon: TechIcons.Laravel, color: '#FF2D20' },
-  { name: 'Node.js', icon: TechIcons['Node.js'], color: '#FF8C00' },
-  { name: 'PostgreSQL', icon: TechIcons.PostgreSQL, color: '#336791' },
-  { name: 'Java', icon: TechIcons.Java, color: '#007396' },
-  { name: 'Git', icon: TechIcons.Git, color: '#F05032' },
+const categoriesFilter = [
+  { id: 'all', label: 'Todo el Stack', icon: Boxes },
+  { id: 'backend', label: 'Backend & APIs', icon: Server },
+  { id: 'mobile', label: 'Multiplataforma', icon: Smartphone },
+  { id: 'db', label: 'Bases de Datos', icon: Database },
+  { id: 'cloud', label: 'Cloud & DevOps', icon: Cloud },
 ];
 
 export function Skills() {
   const sectionRef = useRef<HTMLElement>(null);
   const [isVisible, setIsVisible] = useState(false);
-  const [activeTab, setActiveTab] = useState('mobile');
-  const [animateCharts, setAnimateCharts] = useState(false);
-  const [tabChangeKey, setTabChangeKey] = useState(0);
+  const [filter, setFilter] = useState('all');
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true);
-          setAnimateCharts(true);
           observer.disconnect();
         }
       },
@@ -251,307 +159,209 @@ export function Skills() {
     return () => observer.disconnect();
   }, []);
 
-  // Reiniciar animación cuando cambia la pestaña
-  useEffect(() => {
-    if (isVisible) {
-      setAnimateCharts(false);
-      setTimeout(() => {
-        setAnimateCharts(true);
-        setTabChangeKey(prev => prev + 1);
-      }, 50);
-    }
-  }, [activeTab, isVisible]);
-
-  // Agregar estilos de animación globales
-  useEffect(() => {
-    const style = document.createElement('style');
-    style.textContent = `
-      @keyframes shimmer {
-        0% { transform: translateX(-200%); }
-        100% { transform: translateX(200%); }
-      }
-      @keyframes ping-slow {
-        0% { transform: scale(0.95); opacity: 0.5; }
-        50% { transform: scale(1.05); opacity: 0.2; }
-        100% { transform: scale(0.95); opacity: 0.5; }
-      }
-      @keyframes glow-pulse {
-        0% { opacity: 0.3; filter: blur(4px); }
-        50% { opacity: 0.6; filter: blur(8px); }
-        100% { opacity: 0.3; filter: blur(4px); }
-      }
-      @keyframes float {
-        0% { transform: translateY(0px); }
-        50% { transform: translateY(-5px); }
-        100% { transform: translateY(0px); }
-      }
-      @keyframes scale-in {
-        0% { transform: scale(0.8); opacity: 0; }
-        100% { transform: scale(1); opacity: 1; }
-      }
-      .animate-ping-slow {
-        animation: ping-slow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-      }
-      .animate-glow-pulse {
-        animation: glow-pulse 2s ease-in-out infinite;
-      }
-      .animate-float {
-        animation: float 3s ease-in-out infinite;
-      }
-      .animate-scale-in {
-        animation: scale-in 0.5s ease-out forwards;
-      }
-      .animate-shimmer {
-        animation: shimmer 2s infinite;
-      }
-    `;
-    document.head.appendChild(style);
-    return () => {
-      document.head.removeChild(style);
-    };
-  }, []);
+  const filteredSkills = filter === 'all'
+    ? skillsMatrix
+    : skillsMatrix.filter((s) => s.category === filter);
 
   return (
     <section
       id="skills"
       ref={sectionRef}
-      className="py-24 sm:py-32 relative bg-secondary/30 overflow-hidden"
+      className="py-16 sm:py-24 relative bg-transparent overflow-hidden"
     >
-      {/* Background Elements con animación */}
-      <div className="absolute top-1/2 left-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 -translate-x-1/2 animate-glow-pulse" />
-      <div className="absolute top-1/4 right-0 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl translate-x-1/2 animate-glow-pulse" style={{ animationDelay: '1s' }} />
-
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-        {/* Section Header */}
-        <div
-          className={`text-center mb-16 transition-all duration-700 ${
-            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-          }`}
-        >
-          <Badge
-            variant="secondary"
-            className="mb-4 px-4 py-2 rounded-full bg-primary/10 text-primary border border-primary/20 animate-float"
-          >
-            <Layers className="w-4 h-4 mr-2" />
-            Stack Tecnológico
-          </Badge>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
-            Mis <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-400">Tecnologías</span>
-          </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
-            Full Stack & Mobile Developer con experiencia en desarrollo, despliegue y arquitectura de software
-          </p>
-        </div>
 
-        {/* Tech Cloud with Real Icons */}
-        <div
-          className={`flex flex-wrap justify-center gap-4 mb-16 transition-all duration-700 delay-200 ${
-            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-          }`}
+        {/* Encabezado Principal (Entra desde arriba) */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={isVisible ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4"
         >
-          {technologies.map((tech, index) => {
-            const IconComponent = tech.icon;
+          <div>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md border border-primary/20 bg-primary/10 text-primary text-xs font-mono mb-2">
+              <Terminal className="w-3.5 h-3.5" />
+              <span>sys.capabilities --active</span>
+            </div>
+            <h2 className="text-3xl sm:text-4xl font-black tracking-tight text-foreground">
+              Stack Técnico <span className="text-primary">& Herramientas</span>
+            </h2>
+          </div>
+          <p className="text-muted-foreground text-xs sm:text-sm max-w-md leading-relaxed">
+            Ecosistema de tecnologías aplicadas en entornos reales: librerías, integración de APIs, bases de datos y arquitectura de software.
+          </p>
+        </motion.div>
+
+        {/* Filtros */}
+        <motion.div 
+          initial={{ opacity: 0, y: 10 }}
+          animate={isVisible ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="flex flex-wrap items-center gap-2 mb-6 pb-3 border-b border-border/40"
+        >
+          {categoriesFilter.map((cat) => {
+            const Icon = cat.icon;
+            const isActive = filter === cat.id;
             return (
-              <div
-                key={tech.name}
-                className="group flex flex-col items-center gap-2 p-4 rounded-2xl bg-card border border-border/50 hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10 transition-all duration-300 cursor-default animate-scale-in"
-                style={{ animationDelay: `${index * 0.05}s`, animationFillMode: 'backwards' }}
+              <button
+                key={cat.id}
+                onClick={() => setFilter(cat.id)}
+                className={`flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all duration-500 ${
+                  isActive
+                    ? 'bg-primary text-primary-foreground shadow-md shadow-primary/20 scale-105'
+                    : 'bg-card/40 text-muted-foreground hover:bg-card hover:text-foreground border border-border/40'
+                }`}
               >
-                <div className="w-12 h-12 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                  <IconComponent />
-                </div>
-                <span className="text-xs font-medium text-muted-foreground group-hover:text-foreground transition-colors">
-                  {tech.name}
-                </span>
-              </div>
+                <Icon className="w-3.5 h-3.5" />
+                <span>{cat.label}</span>
+              </button>
             );
           })}
-        </div>
+        </motion.div>
 
-        {/* Skills Tabs */}
-        <div
-          className={`transition-all duration-1000 delay-500 ${
-            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-          }`}
-        >
-          <Tabs
-            defaultValue="mobile"
-            value={activeTab}
-            onValueChange={setActiveTab}
-            className="w-full"
+        {/* BENTO GRID COMPACTO */}
+        <div className="grid lg:grid-cols-12 gap-5 items-start">
+
+          {/* COLUMNA IZQUIERDA: VIENE DE LA IZQUIERDA (x: -40) */}
+          <motion.div 
+            initial={{ opacity: 0, x: -40 }}
+            animate={isVisible ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.9, delay: 0.3, ease: "easeOut" }}
+            className="lg:col-span-8 grid sm:grid-cols-2 md:grid-cols-3 gap-3"
           >
-            {/* TabsList con estilo flotante y Glassmorphism */}
-            <TabsList className="flex h-auto p-5 bg-secondary/50 border border-border/10 rounded-2xl max-w-4xl mx-auto mb-12 backdrop-blur-md">
-              {skillCategories.map((category) => (
-                <TabsTrigger
-                  key={category.id}
-                  value={category.id}
-                  className="flex-1 py-3 px-6 rounded-xl data-[state=active]:bg-background data-[state=active]:text-primary data-[state=active]:shadow-lg data-[state=active]:shadow-primary/5 font-semibold transition-all duration-300 gap-2"
+            {filteredSkills.map((skill, idx) => {
+              const IconComponent = TechIcons[skill.name] || Code2;
+              return (
+                <motion.div
+                  key={skill.name}
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={isVisible ? { opacity: 1, scale: 1 } : {}}
+                  transition={{ duration: 0.8, delay: 0.35 + idx * 0.04 }}
                 >
-                  <category.icon className={`w-4 h-4 transition-transform duration-300 ${activeTab === category.id ? 'scale-110' : 'opacity-70'}`} />
-                  <span className="hidden sm:inline">{category.label}</span>
-                </TabsTrigger>
-              ))}
-            </TabsList>
-
-            {/* Contenido con gráficos de pastel animados */}
-            {skillCategories.map((category) => (
-              <TabsContent
-                key={category.id}
-                value={category.id}
-                className="mt-0 focus-visible:outline-none"
-              >
-                <Card className="overflow-hidden border-border/40 bg-gradient-to-br from-card/50 to-card/30 backdrop-blur-xl shadow-2xl shadow-primary/5">
-                  <div className="p-8 sm:p-12">
-                    {/* Header de la categoría */}
-                    <div className="flex flex-col sm:flex-row sm:items-center gap-6 mb-12 animate-scale-in">
-                      <div
-                        className="w-20 h-20 rounded-3xl flex items-center justify-center shadow-inner relative group/icon"
-                        style={{ backgroundColor: `${category.color}15` }}
-                      >
-                        <category.icon
-                          className="w-10 h-10 transition-transform duration-500 group-hover/icon:rotate-12"
-                          style={{ color: category.color }}
-                        />
-                        <div className="absolute inset-0 rounded-3xl blur-2xl opacity-20 animate-glow-pulse" style={{ backgroundColor: category.color }} />
-                      </div>
-                      <div>
-                        <h3 className="text-3xl font-extrabold tracking-tight">{category.label}</h3>
-                        <p className="text-muted-foreground text-lg">
-                          {category.description}
-                        </p>
-                      </div>
-                    </div>
-
-                    {/* Grid de Habilidades con gráficos de pastel */}
-                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                      {category.skills.map((skill, index) => {
-                        const IconComponent = TechIcons[skill.name] || Code2;
-                        return (
-                          <div
-                            key={`${skill.name}-${tabChangeKey}`}
-                            className="group relative p-6 rounded-2xl border border-white/5 bg-card/40 hover:bg-white/[0.05] transition-all duration-500 overflow-hidden animate-scale-in"
-                            style={{ animationDelay: `${index * 0.1}s`, animationFillMode: 'backwards' }}
-                          >
-                            {/* Resplandor de fondo dinámico al hover */}
-                            <div 
-                              className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"
-                              style={{ background: `radial-gradient(circle at 50% 50%, ${category.color}20 0%, transparent 80%)` }} 
-                            />
-
-                            <div className="flex flex-col items-center text-center gap-4">
-                              {/* Donut Chart con icono en el centro y animación mejorada */}
-                              <div className="relative flex items-center justify-center">
-                                <DonutChart
-                                  percentage={skill.level}
-                                  color={category.color}
-                                  size={120}
-                                  isAnimating={animateCharts}
-                                />
-                                <div className="absolute inset-0 flex items-center justify-center">
-                                  <div className="w-14 h-14 rounded-xl bg-secondary/50 flex items-center justify-center p-2.5 border border-white/10 group-hover:border-primary/50 transition-all duration-500 shadow-lg group-hover:scale-110 group-hover:rotate-6">
-                                    {typeof IconComponent === 'function' ? (
-                                      <IconComponent />
-                                    ) : (
-                                      <IconComponent className="w-8 h-8" />
-                                    )}
-                                  </div>
-                                </div>
-                              </div>
-
-                              {/* Información de la habilidad */}
-                              <div className="mt-2">
-                                <h4 className="font-bold text-xl tracking-tight group-hover:text-primary transition-colors">
-                                  {skill.name}
-                                </h4>
-                                <div className="flex items-center justify-center gap-2 mt-2">
-                                  <span className="text-3xl font-mono font-black text-primary/90 transition-all duration-500 group-hover:scale-110 inline-block">
-                                    {skill.level}%
-                                  </span>
-                                  <span className="text-xs text-muted-foreground">
-                                    dominio
-                                  </span>
-                                </div>
-                              </div>
-
-                              {/* Barra de progreso complementaria */}
-                              <div className="w-full mt-2">
-                                <div className="relative h-1.5 w-full bg-black/20 rounded-full overflow-hidden border border-white/5">
-                                  <div
-                                    className="h-full rounded-full transition-all duration-[1500ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] relative"
-                                    style={{
-                                      width: animateCharts ? `${skill.level}%` : '0%',
-                                      backgroundColor: category.color,
-                                      boxShadow: `0 0 10px ${category.color}50`,
-                                      transitionDelay: `${index * 100 + 400}ms`,
-                                    }}
-                                  >
-                                    <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/30 to-transparent skew-x-[-20deg] animate-shimmer" />
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
+                  <Card className="p-3 bg-card/30 border-border/50 hover:border-primary/50 transition-all duration-500 backdrop-blur-sm rounded-xl relative overflow-hidden group flex flex-col justify-between hover:shadow-lg hover:shadow-primary/5 h-full">
+                    <div className="space-y-2">
+                      {/* Header de Card */}
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <div className="p-1.5 rounded-md bg-secondary/50 border border-border/40 group-hover:scale-105 transition-transform shrink-0">
+                            <IconComponent />
                           </div>
-                        );
-                      })}
+                          <h3 className="font-bold text-xs text-foreground">{skill.name}</h3>
+                        </div>
+
+                        {skill.architecture && (
+                          <Badge variant="outline" className="text-[9px] font-mono border-primary/20 text-primary px-1.5 py-0 shrink-0">
+                            {skill.architecture}
+                          </Badge>
+                        )}
+                      </div>
+
+                      {/* Rol / Uso principal */}
+                      <p className="text-[11px] text-muted-foreground leading-snug line-clamp-2">
+                        {skill.role}
+                      </p>
+
+                      {/* Chips de Librerías / Sub-skills */}
+                      <div className="flex flex-wrap gap-1 pt-1">
+                        {skill.tags.map((tag) => (
+                          <span
+                            key={tag}
+                            className="px-1.5 py-0.5 rounded-md text-[9px] font-mono bg-secondary/40 text-muted-foreground border border-border/30"
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
                     </div>
+                  </Card>
+                </motion.div>
+              );
+            })}
+          </motion.div>
+
+          {/* COLUMNA DERECHA: VIENE DE LA DERECHA (x: 40) */}
+          <motion.div 
+            initial={{ opacity: 0, x: 40 }}
+            animate={isVisible ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.7, delay: 0.4, ease: "easeOut" }}
+            className="lg:col-span-4 space-y-3"
+          >
+
+            {/* Live Monitor Log */}
+            <Card className="p-4 bg-slate-950/90 border-slate-800 text-slate-300 rounded-xl relative overflow-hidden shadow-xl">
+              <div className="flex items-center justify-between pb-2 mb-2 border-b border-slate-800/80 text-xs font-mono">
+                <div className="flex items-center gap-2">
+                  <Activity className="w-3.5 h-3.5 text-primary animate-pulse" />
+                  <span className="text-slate-200 font-bold">Producción Live Status</span>
+                </div>
+                <span className="text-slate-500 text-[10px]">PROD_SYS</span>
+              </div>
+
+              <div className="space-y-2 font-mono text-[11px]">
+                <div className="p-2 rounded-lg bg-slate-900/90 border border-slate-800 flex items-start gap-2">
+                  <Zap className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />
+                  <div>
+                    <div className="text-slate-200 font-semibold text-[11px]">Facturación Hacienda DTE</div>
+                    <p className="text-[10px] text-slate-400">Node.js, PDFKit, Mailer & Firmado.</p>
                   </div>
-                </Card>
-              </TabsContent>
-            ))}
-          </Tabs>
-        </div>
+                </div>
 
-        {/* Additional Skills Cards */}
-        <div
-          className={`grid sm:grid-cols-3 gap-6 mt-12 transition-all duration-700 delay-600 ${
-            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-          }`}
-        >
-          {[
-            { icon: Code2, title: 'Clean Code', desc: 'Código limpio, mantenible y bien documentado siguiendo las mejores prácticas' },
-            { icon: GitBranch, title: 'Version Control', desc: 'Git y GitHub para control de versiones colaborativo y organizado' },
-            { icon: Layers, title: 'Arquitectura', desc: 'Patrones MVC, MVVM y principios SOLID para código escalable' },
-          ].map((item, index) => (
-            <Card
-              key={item.title}
-              className="p-6 bg-gradient-card border-border/50 text-center group hover:border-primary/30 transition-all duration-300 animate-scale-in"
-              style={{ animationDelay: `${index * 0.1}s`, animationFillMode: 'backwards' }}
-            >
-              <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-4 group-hover:bg-primary/20 group-hover:scale-110 transition-all duration-300">
-                <item.icon className="w-7 h-7 text-primary" />
+                <div className="p-2 rounded-lg bg-slate-900/90 border border-slate-800 flex items-start gap-2">
+                  <Workflow className="w-3.5 h-3.5 text-blue-400 shrink-0 mt-0.5" />
+                  <div>
+                    <div className="text-slate-200 font-semibold text-[11px]">Deploy & Contenedores</div>
+                    <p className="text-[10px] text-slate-400">DigitalOcean VPS + Docker imágenes.</p>
+                  </div>
+                </div>
               </div>
-              <h4 className="font-semibold text-lg mb-2">{item.title}</h4>
-              <p className="text-sm text-muted-foreground">{item.desc}</p>
             </Card>
-          ))}
+
+            {/* Métricas / Patrones */}
+            <div className="grid grid-cols-2 gap-2">
+              <Card className="p-3 bg-card/30 border-border/50 rounded-xl flex flex-col justify-between">
+                <div className="flex items-center justify-between text-muted-foreground mb-1">
+                  <Clock className="w-3.5 h-3.5 text-primary" />
+                  <span className="text-[9px] font-mono">Mobile & Web</span>
+                </div>
+                <div className="text-sm font-bold text-foreground">Flutter / Dart</div>
+                <p className="text-[10px] text-muted-foreground">MVVM & Clean Arch</p>
+              </Card>
+
+              <Card className="p-3 bg-card/30 border-border/50 rounded-xl flex flex-col justify-between">
+                <div className="flex items-center justify-between text-muted-foreground mb-1">
+                  <Gauge className="w-3.5 h-3.5 text-emerald-500" />
+                  <span className="text-[9px] font-mono">Backend API</span>
+                </div>
+                <div className="text-sm font-bold text-foreground">Node / Laravel</div>
+                <p className="text-[10px] text-muted-foreground">MVC & Clean Arch</p>
+              </Card>
+            </div>
+
+            {/* Estándares de Arquitectura */}
+            <Card className="p-3.5 bg-card/30 border-border/50 rounded-xl space-y-2">
+              <h4 className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
+                <ShieldCheck className="w-3.5 h-3.5 text-primary" /> Flujo & Arquitectura
+              </h4>
+              <div className="space-y-1.5 text-xs text-muted-foreground">
+                <div className="flex items-center gap-2">
+                  <CheckCircle className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
+                  <span className="text-[11px]">Patrones Clean Arch, MVVM y MVC</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
+                  <span className="text-[11px]">Diseño SQL en Postgres (Views) & MySQL</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
+                  <span className="text-[11px]">Testing con Postman & GitFlow</span>
+                </div>
+              </div>
+            </Card>
+
+          </motion.div>
+
         </div>
 
-        {/* Bottom Stats */}
-        <div
-          className={`grid grid-cols-2 md:grid-cols-4 gap-4 mt-12 transition-all duration-700 delay-700 ${
-            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-          }`}
-        >
-          {[
-            { icon: Star, label: 'Calidad', value: '100%' },
-            { icon: TrendingUp, label: 'Aprendizaje', value: 'Continuo' },
-            { icon: Zap, label: 'Performance', value: 'Óptima' },
-            { icon: Shield, label: 'Seguridad', value: 'Prioridad' },
-          ].map((item, index) => (
-            <div
-              key={item.label}
-              className="flex items-center gap-3 p-4 rounded-xl bg-card border border-border/50 animate-scale-in"
-              style={{ animationDelay: `${index * 0.1}s`, animationFillMode: 'backwards' }}
-            >
-              <item.icon className="w-5 h-5 text-primary" />
-              <div>
-                <p className="text-sm font-semibold">{item.value}</p>
-                <p className="text-xs text-muted-foreground">{item.label}</p>
-              </div>
-            </div>
-          ))}
-        </div>
       </div>
     </section>
   );

@@ -8,7 +8,6 @@ const navItems = [
   { label: 'Sobre mí', href: '#about' },
   { label: 'Habilidades', href: '#skills' },
   { label: 'Proyectos', href: '#projects' },
-  { label: 'Contacto', href: '#contact' },
 ];
 
 interface NavigationProps {
@@ -93,16 +92,6 @@ export function Navigation({ scrolled }: NavigationProps) {
                 {item.label}
               </a>
             ))}
-          </div>
-
-          {/* CTA Button */}
-          <div className="hidden md:block">
-            <Button
-              onClick={() => scrollToSection('#contact')}
-              className="rounded-full bg-primary hover:bg-primary/90 text-primary-foreground"
-            >
-              Hablemos
-            </Button>
           </div>
 
           {/* Mobile Menu */}

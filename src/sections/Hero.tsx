@@ -1,8 +1,7 @@
-
-import React from 'react';
-import { useEffect, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
+import { FaLaravel, FaFlutter } from "react-icons/fa6";
 
 import {
   ChevronDown,
@@ -10,174 +9,28 @@ import {
   Linkedin,
   Mail,
   Code2,
-  Sparkles,
   Download,
   MapPin,
   Calendar,
+  Terminal,
 } from 'lucide-react';
 
-// --- Iconos Mejorados con Gradientes y Sombras ---
-
-
+// --- Componentes de Tecnologías usando React Icons ---
 const FlutterIcon = () => (
-  <img
-    src="flutter.png"
-    alt="Flutter Logo"
-    className="w-8 h-7 object-contain drop-shadow-md rounded-sm"
-  />
+  <FaFlutter className="w-5 h-5 text-[#02569B]" />
 );
 
 const LaravelIcon = () => (
-  <img
-    src="laravel.png"
-    alt="Flutter Logo"
-    className="w-8 h-8 object-contain drop-shadow-md rounded-sm"
-  />
+  <FaLaravel className="w-5 h-5 text-[#FF2D20]" />
 );
-
-const PHPIcon = () => (
-  <img
-    src="postgrest.png"
-    alt="Flutter Logo"
-    className="w-8 h-8 object-contain drop-shadow-md rounded-sm"
-  />
-);
-
-const NodeIcon = () => (
-  <img
-    src="node.png"
-    alt="Flutter Logo"
-    className="w-8 h-8 object-contain drop-shadow-md rounded-sm"
-  />
-);
-
-const ReactIcon = () => (
-  <img
-    src="postman.png"
-    alt="Flutter Logo"
-    className="w-8 h-8 object-contain drop-shadow-md rounded-sm"
-  />
-);
-
-const JSIcon = () => (
-  <svg viewBox="0 0 24 24" className="w-6 h-6 drop-shadow-md" xmlns="http://www.w3.org/2000/svg">
-    <path fill="#F7DF1E" d="M0 0h24v24H0V0zm22.034 18.276c-.175-1.095-.888-2.015-3.003-2.873-.736-.345-1.554-.585-1.797-1.14-.091-.33-.105-.51-.046-.705.15-.646.915-.84 1.515-.66.39.12.75.42.976.9 1.034-.676 1.034-.676 1.755-1.125-.27-.42-.404-.601-.586-.78-.63-.705-1.469-1.065-2.834-1.034l-.705.089c-.676.165-1.32.525-1.71 1.005-1.14 1.291-.811 3.541.569 4.471 1.365 1.02 3.361 1.244 3.616 2.205.24 1.17-.87 1.545-1.966 1.41-.811-.18-1.26-.586-1.755-1.336l-1.83 1.051c.21.48.45.689.81 1.109 1.74 1.756 6.09 1.666 6.871-1.004.029-.09.24-.705.074-1.65l.046.067zm-8.983-7.245h-2.248c0 1.938-.009 3.864-.009 5.805 0 1.232.063 2.363-.138 2.711-.33.689-1.18.601-1.566.48-.396-.196-.597-.466-.83-.855-.063-.105-.11-.196-.127-.196l-1.825 1.125c.305.63.75 1.172 1.324 1.517.855.51 2.004.675 3.207.405.783-.226 1.458-.691 1.811-1.411.51-.93.402-2.07.397-3.346.012-2.054 0-4.109 0-6.179l.004-.056z" />
-  </svg>
-);
-
-const DartIcon = () => (
-  <img
-    src="dart.png"
-    alt="Flutter Logo"
-    className="w-8 h-8 object-contain drop-shadow-md rounded-sm"
-  />
-);
-
-const JavaIcon = () => (
-
-  <img
-    src="java.png"
-    alt="Flutter Logo"
-    className="w-9 h-9 object-contain drop-shadow-md rounded-sm"
-  />
-);
-
-const techStack = [
-  { name: 'Flutter', icon: FlutterIcon, color: '#02569B', glow: 'group-hover:shadow-[0_0_15px_rgba(2,86,155,0.4)]' },
-  { name: 'Dart', icon: DartIcon, color: '#0175C2', glow: 'group-hover:shadow-[0_0_15px_rgba(1,117,194,0.4)]' },
-  { name: 'Laravel', icon: LaravelIcon, color: '#FF2D20', glow: 'group-hover:shadow-[0_0_15px_rgba(255,45,32,0.4)]' },
-  { name: 'Java', icon: JavaIcon, color: '#007396', glow: 'group-hover:shadow-[0_0_15px_rgba(0,115,150,0.4)]' },
-  { name: 'PostgreSQL', icon: PHPIcon, color: '#336791', glow: 'group-hover:shadow-[0_0_15px_rgba(51,103,145,0.4)]' },
-  { name: 'Node.js', icon: NodeIcon, color: '#E34F26', glow: 'group-hover:shadow-[0_0_15px_rgba(227,79,38,0.4)]' },
-  { name: 'React', icon: ReactIcon, color: '#1572B6', glow: 'group-hover:shadow-[0_0_15px_rgba(21,114,182,0.4)]' },
-  { name: 'JavaScript', icon: JSIcon, color: '#F7DF1E', glow: 'group-hover:shadow-[0_0_15px_rgba(247,223,30,0.4)]' },
-];
 
 export function Hero() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    const resizeCanvas = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    };
-    resizeCanvas();
-
-    const particles: Array<{
-      x: number;
-      y: number;
-      vx: number;
-      vy: number;
-      size: number;
-      alpha: number;
-      color: string;
-    }> = [];
-
-    const colors = ['#3B82F6', '#60A5FA', '#93C5FD', '#1E40AF', '#2563EB'];
-
-    for (let i = 0; i < 60; i++) {
-      particles.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        vx: (Math.random() - 0.5) * 0.3,
-        vy: (Math.random() - 0.5) * 0.3,
-        size: Math.random() * 3 + 1,
-        alpha: Math.random() * 0.6 + 0.2,
-        color: colors[Math.floor(Math.random() * colors.length)],
-      });
-    }
-
-    let animationId: number;
-    const animate = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      particles.forEach((particle) => {
-        particle.x += particle.vx;
-        particle.y += particle.vy;
-
-        if (particle.x < 0 || particle.x > canvas.width) particle.vx *= -1;
-        if (particle.y < 0 || particle.y > canvas.height) particle.vy *= -1;
-
-        ctx.beginPath();
-        ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
-        ctx.fillStyle = particle.color;
-        ctx.globalAlpha = particle.alpha;
-        ctx.fill();
-      });
-
-      ctx.globalAlpha = 1;
-      particles.forEach((p1, i) => {
-        particles.slice(i + 1).forEach((p2) => {
-          const dx = p1.x - p2.x;
-          const dy = p1.y - p2.y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
-
-          if (distance < 180) {
-            ctx.beginPath();
-            ctx.moveTo(p1.x, p1.y);
-            ctx.lineTo(p2.x, p2.y);
-            ctx.strokeStyle = `rgba(59, 130, 246, ${0.15 * (1 - distance / 180)})`;
-            ctx.stroke();
-          }
-        });
-      });
-
-      animationId = requestAnimationFrame(animate);
-    };
-
-    animate();
-
-    window.addEventListener('resize', resizeCanvas);
-    return () => {
-      cancelAnimationFrame(animationId);
-      window.removeEventListener('resize', resizeCanvas);
-    };
+    const handleScroll = () => setScrollY(window.scrollY);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const scrollToSection = (href: string) => {
@@ -190,209 +43,199 @@ export function Hero() {
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background pt-20 pb-16"
     >
-      {/* Background Canvas */}
-      <canvas
-        ref={canvasRef}
-        className="absolute inset-0 pointer-events-none opacity-50"
+      {/* CAPA 0: Fondo con cuadrícula */}
+      <div 
+        className="fixed inset-0 pointer-events-none bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:32px_32px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_40%,#000_70%,transparent_100%)]"
+        style={{ transform: `translateY(${scrollY * 0.15}px)` }}
       />
 
-      {/* Gradient Overlays */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-purple-500/5 pointer-events-none" />
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/30 to-background pointer-events-none" />
+      {/* Glow de fondo */}
+      <div
+        className="fixed top-1/3 right-1/4 w-[450px] h-[450px] bg-primary/20 blur-[130px] rounded-full pointer-events-none"
+        style={{ transform: `translateY(${scrollY * 0.2}px)` }}
+      />
 
-      {/* Floating Code Elements */}
-      <div className="absolute top-20 left-10 text-primary/10 text-6xl font-mono animate-float hidden lg:block">
-        {'</>'}
-      </div>
-      <div className="absolute bottom-32 right-16 text-primary/10 text-4xl font-mono animate-float hidden lg:block" style={{ animationDelay: '1s' }}>
-        {'{ }'}
-      </div>
-      <div className="absolute top-1/3 right-20 text-primary/5 text-5xl font-mono animate-float hidden lg:block" style={{ animationDelay: '2s' }}>
-        {'[]'}
-      </div>
+      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+        <div className="grid lg:grid-cols-12 gap-12 items-center">
+          
+          {/* CAPA 1: Columna de Texto con Animación de Entrada General */}
+          <motion.div 
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.9, ease: "easeOut" }}
+            className="lg:col-span-7 flex flex-col items-start text-left"
+            style={{ transform: `translateY(${scrollY * 0.35}px)` }}
+          >
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-xs font-medium text-primary mb-6 backdrop-blur-sm">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+              </span>
+              Disponible para nuevos proyectos
+            </div>
 
-      {/* Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-
-          {/* Left Column - Text Content */}
-          <div className="flex flex-col items-center lg:items-start text-center lg:text-left order-2 lg:order-1">
-            <Badge
-              variant="secondary"
-              className="mb-6 px-4 py-2 rounded-full bg-primary/10 text-primary border border-primary/20 animate-slide-up"
-              style={{ animationDelay: '0.1s' }}
-            >
-              <Sparkles className="w-4 h-4 mr-2" />
-              Disponible para proyectos
-            </Badge>
-
-            <h1
-              className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight mb-4 animate-slide-up"
-              style={{ animationDelay: '0.2s' }}
-            >
-              <span className="text-foreground">Hola, soy </span>
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-400">Gerson</span>
+            <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight mb-4 leading-none">
+              Gerson Franco
+              <span className="block text-2xl sm:text-3xl font-semibold text-muted-foreground mt-3">
+                Fullstack Developer & <span className="text-primary">QA Mindset</span>
+              </span>
             </h1>
 
-            <p
-              className="text-xl sm:text-2xl md:text-3xl text-muted-foreground mb-4 animate-slide-up"
-              style={{ animationDelay: '0.3s' }}
-            >
-              Desarrollador <span className="text-primary font-semibold italic">Fullstack</span>
+            <p className="text-base sm:text-lg text-muted-foreground leading-relaxed mb-6 max-w-xl">
+              Desarrollo de software enfocado en Flutter y Laravel. Apasionado por encontrar solución a bugs y liderar la calidad bajo metodologías Scrum.
             </p>
 
-            <p
-              className="max-w-xl text-base sm:text-lg text-muted-foreground/80 mb-6 animate-slide-up leading-relaxed"
-              style={{ animationDelay: '0.4s' }}
-            >
-              Enfocado en testear código hasta encontrar y solucionar todos los bugs.
-              Experiencia como Scrum Master asignando tareas y garantizando la calidad del software.
-            </p>
-
-            {/* Location & Age */}
-            <div
-              className="flex flex-wrap justify-center lg:justify-start gap-4 mb-8 animate-slide-up"
-              style={{ animationDelay: '0.5s' }}
-            >
-              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-secondary/50 text-sm font-medium text-muted-foreground border border-border/40 backdrop-blur-sm">
-                <MapPin className="w-4 h-4 text-primary" />
+            <div className="flex flex-wrap gap-3 mb-8">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-secondary/70 text-xs font-medium border border-border/50">
+                <MapPin className="w-3.5 h-3.5 text-primary" />
                 San Miguel, El Salvador
               </span>
-              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-secondary/50 text-sm font-medium text-muted-foreground border border-border/40 backdrop-blur-sm">
-                <Calendar className="w-4 h-4 text-primary" />
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-secondary/70 text-xs font-medium border border-border/50">
+                <Calendar className="w-3.5 h-3.5 text-primary" />
                 19 años
+              </span>
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-secondary/70 text-xs font-medium border border-border/50">
+                <Terminal className="w-3.5 h-3.5 text-primary" />
+                Scrum Master Experience
               </span>
             </div>
 
-            {/* Tech Stack con Iconos Mejorados */}
-            <div
-              className="flex flex-wrap justify-center lg:justify-start gap-3 mb-8 animate-slide-up"
-              style={{ animationDelay: '0.6s' }}
-            >
-              {techStack.map((tech) => (
-                <div
-                  key={tech.name}
-                  className={`group relative flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-card border border-border/50 transition-all duration-300 cursor-default hover:border-primary/50 hover:bg-primary/5 hover:-translate-y-1 ${tech.glow}`}
-                  title={tech.name}
-                >
-                  <tech.icon />
-                  <span className="text-sm font-semibold opacity-80 group-hover:opacity-100 hidden sm:inline">{tech.name}</span>
-                </div>
-              ))}
-            </div>
-
-            {/* CTA Buttons */}
-            <div
-              className="flex flex-col sm:flex-row gap-4 mb-10 animate-slide-up"
-              style={{ animationDelay: '0.7s' }}
-            >
+            <div className="flex flex-wrap gap-4 mb-8">
               <Button
                 size="lg"
                 onClick={() => scrollToSection('#projects')}
-                className="rounded-full bg-primary hover:bg-primary/90 text-primary-foreground px-8 shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-all duration-300"
+                className="rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-semibold px-6 shadow-md shadow-primary/20 transition-all hover:scale-[1.02]"
               >
-                <Code2 className="w-5 h-5 mr-2" />
-                Ver proyectos
+                <Code2 className="w-4 h-4 mr-2" />
+                Ver Proyectos
               </Button>
               <Button
                 size="lg"
                 variant="outline"
-                onClick={() => scrollToSection('#contact')}
-                className="rounded-full border-border hover:bg-secondary backdrop-blur-md px-8"
+                asChild
+                className="rounded-xl border-border hover:bg-secondary/80 font-medium px-6"
               >
-                <Mail className="w-5 h-5 mr-2" />
-                Contactar
+                <a href="/Gerson-CV.pdf" download="CV-Gerson-Franco.pdf">
+                  <Download className="w-4 h-4 mr-2" />
+                  Descargar CV
+                </a>
               </Button>
             </div>
 
-            {/* Social Links */}
-            <div
-              className="flex items-center gap-4 animate-slide-up"
-              style={{ animationDelay: '0.8s' }}
-            >
+            <div className="flex items-center gap-3 pt-4 border-t border-border/40 w-full">
+              <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mr-2">Redes:</span>
               {[
-                { icon: Github, href: "https://github.com/Gerso1212121" },
-                { icon: Linkedin, href: "https://www.linkedin.com/in/gerson-franco-854390356/" },
+                { icon: Github, href: "https://github.com/Gerson-dev11" },
+                { icon: Linkedin, href: "https://www.linkedin.com/in/gerson-dev/" },
                 { icon: Mail, href: "mailto:gamewil50@gmail.com" },
-                {
-                  icon: Download,
-                  href: "/cv-Gerso.pdf", // Debe coincidir con el archivo real
-                  download: "CV-Gerson-Franco.pdf" // Nombre con el que se descarga (limpio)
-                }
               ].map((social, i) => (
                 <a
                   key={i}
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-11 h-11 rounded-xl bg-secondary/50 flex items-center justify-center text-muted-foreground hover:text-primary hover:bg-primary/10 transition-all duration-200 hover:scale-110 border border-border/40"
+                  className="p-2.5 rounded-lg bg-card border border-border/60 text-muted-foreground hover:text-primary hover:border-primary/40 transition-all hover:-translate-y-0.5"
                 >
-                  <social.icon className="w-5 h-5" />
+                  <social.icon className="w-4 h-4" />
                 </a>
               ))}
             </div>
-          </div>
+          </motion.div>
 
-          {/* Right Column - Photo Section */}
-          <div
-            className="flex justify-center lg:justify-end order-1 lg:order-2 animate-slide-up"
-            style={{ animationDelay: '0.3s' }}
-          >
-            <div className="relative">
-              {/* Glow Effect */}
-              <div className="absolute inset-0 bg-primary/30 rounded-[3rem] blur-[100px] scale-110 animate-pulse" />
+          {/* Columna Derecha */}
+          <div className="lg:col-span-5 flex justify-center lg:justify-end">
+            <div className="relative w-full max-w-md h-[460px] flex items-end justify-center">
+              
+              {/* CAPA 2: Tarjeta del fondo (Aparece temprano) */}
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.9, delay: 0.2 }}
+                className="absolute inset-x-4 bottom-0 h-[360px] rounded-3xl bg-gradient-to-b from-card/80 to-card border border-border/80 shadow-2xl backdrop-blur-md overflow-hidden"
+                style={{ transform: `translateY(${scrollY * 0.25}px)` }}
+              >
+                <div className="absolute top-4 left-4 flex items-center gap-2">
+                  <div className="w-3 h-3 rounded-full bg-red-500/80" />
+                  <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
+                  <div className="w-3 h-3 rounded-full bg-green-500/80" />
+                </div>
+                
+                <div className="absolute top-12 left-5 right-5 bottom-0 bg-background/30 rounded-t-xl border-t border-x border-border/40 p-4 font-mono text-[11px] text-muted-foreground/60 select-none">
+                  <p><span className="text-primary">const</span> dev = &#123;</p>
+                  <p className="pl-4">name: <span className="text-emerald-400">'Gerson'</span>,</p>
+                  <p className="pl-4">role: <span className="text-emerald-400">'Fullstack'</span>,</p>
+                  <p className="pl-4">status: <span className="text-emerald-400">'Building...'</span></p>
+                  <p>&#125;;</p>
+                </div>
+              </motion.div>
 
-              {/* Photo Container */}
-              <div className="relative w-72 h-96 sm:w-80 sm:h-[28rem] lg:w-96 lg:h-[32rem] rounded-[2.5rem] overflow-hidden border-2 border-primary/20 shadow-2xl backdrop-blur-sm">
+              {/* CAPA 3: Foto de Perfil (Con RETARDO y animación desde abajo) */}
+              <motion.div 
+                initial={{ opacity: 0, y: 40 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.9, delay: 0.6, ease: [0.21, 0.47, 0.32, 0.98] }}
+                className="relative z-10 w-full h-[420px] flex justify-center items-end pointer-events-none"
+                style={{ transform: `translateY(${scrollY * 0.45}px)` }}
+              >
                 <img
                   src="gerson.jpg"
-                  alt="Gerson Wilfredo Franco Gámez"
-                  className="w-full h-full object-cover grayscale-[15%] hover:grayscale-0 transition-all duration-700 ease-in-out"
+                  alt="Gerson Franco"
+                  className="h-full object-contain filter drop-shadow-[0_15px_25px_rgba(0,0,0,0.35)]"
                 />
+              </motion.div>
 
-                {/* Overlay Gradient */}
-                <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent" />
-
-                {/* Info Card Badge */}
-                <div className="absolute bottom-3 left-7 right-7">
-                  <div className="px-4 py-4 rounded-2xl bg-background/40 backdrop-blur-2xl border border-white/10 shadow-xl">
-                    <div className="flex items-center gap-3">
-                      <div className="w-12 h-12 rounded-xl bg-primary flex items-center justify-center shadow-lg shadow-primary/40">
-                        <Code2 className="w-6 h-6 text-white" />
-                      </div>
-                      <div>
-                        <p className="text-sm font-bold tracking-tight">Fullstack Developer</p>
-                        <p className="text-xs text-muted-foreground font-medium uppercase tracking-wider">Ing de Software</p>
-                      </div>
-                    </div>
-                  </div>
+              {/* CAPA 4: Floating Badges con Animación de rebote suave al final */}
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.7, delay: 0.9 }}
+                className="absolute top-12 -left-2 z-20 p-3 rounded-2xl bg-card/90 border border-border shadow-xl backdrop-blur-md flex items-center gap-3"
+                style={{ transform: `translateY(${scrollY * 0.6}px)` }}
+              >
+                <div className="p-2 rounded-xl bg-[#02569B]/10">
+                  <FlutterIcon />
                 </div>
-              </div>
+                <div>
+                  <p className="text-xs font-bold">Flutter Dev</p>
+                  <p className="text-[10px] text-muted-foreground">Mobile & Desktop</p>
+                </div>
+              </motion.div>
 
-              {/* Floating Tech Icons en la Foto */}
-              <div className="absolute -top-1 -right-2 w-16 h-16 rounded-2xl bg-background/80 backdrop-blur-md border border-border shadow-2xl flex items-center justify-center animate-float group hover:border-primary/50 transition-colors">
-                <FlutterIcon />
-              </div>
-              <div className="absolute bottom-1/4 -left-8 w-16 h-16 rounded-2xl bg-background/80 backdrop-blur-md border border-border shadow-2xl flex items-center justify-center animate-float group hover:border-primary/50 transition-colors" style={{ animationDelay: '1.2s' }}>
-                <DartIcon />
-              </div>
-              <div className="absolute top-1/2 -right-8 w-14 h-14 rounded-2xl bg-background/80 backdrop-blur-md border border-border shadow-2xl flex items-center justify-center animate-float group hover:border-primary/50 transition-colors" style={{ animationDelay: '0.7s' }}>
-                <LaravelIcon />
-              </div>
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.7, delay: 1.1 }}
+                className="absolute bottom-16 -right-2 z-20 p-3 rounded-2xl bg-card/90 border border-border shadow-xl backdrop-blur-md flex items-center gap-3"
+                style={{ transform: `translateY(${scrollY * 0.55}px)` }}
+              >
+                <div className="p-2 rounded-xl bg-[#FF2D20]/10">
+                  <LaravelIcon />
+                </div>
+                <div>
+                  <p className="text-xs font-bold">Laravel</p>
+                  <p className="text-[10px] text-muted-foreground">Backend API</p>
+                </div>
+              </motion.div>
+
             </div>
           </div>
+
         </div>
       </div>
 
       {/* Scroll Indicator */}
-      <div className="absolute bottom-0 left-1/1 -translate-x-1/2 animate-bounce">
+      <div 
+        className="absolute bottom-4 left-1/2 -translate-x-1/2"
+        style={{ transform: `translate(-50%, ${scrollY * 0.8}px)` }}
+      >
         <button
           onClick={() => scrollToSection('#about')}
-          className="w-12 h-12 rounded-full bg-card border border-border/80 flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/50 transition-all duration-300 shadow-lg"
+          aria-label="Scroll down"
+          className="p-2 rounded-full border border-border bg-card/40 backdrop-blur-sm text-muted-foreground hover:text-primary transition-colors"
         >
-          <ChevronDown className="w-5 h-5" />
+          <ChevronDown className="w-4 h-4 animate-bounce" />
         </button>
       </div>
     </section>
