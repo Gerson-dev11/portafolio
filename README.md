@@ -1,7 +1,3 @@
-
----
-
-```markdown
 # Developer Portfolio
 
 ![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white)
@@ -82,8 +78,5 @@ npm run build
 ```
 
 Desarrollador Full Stack de 19 años radicado en San Miguel, El Salvador. Apasionado por la creación de soluciones escalables, desde APIs REST, facturación electrónica (DTE) y arquitectura de bases de datos, hasta interfaces móviles multiplataforma y entornos de despliegue en la nube.
-
-```
-3. **Cierra con impacto:** Resume tu perfil completo al final, dándole un toque humano al repositorio.
 
 ```
