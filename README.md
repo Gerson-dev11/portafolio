@@ -69,14 +69,5 @@ npm run dev
 
 ```
 
-
 El proyecto estará disponible en `http://localhost:5173`.
-4. **Construir para producción:**
-```bash
-npm run build
 
-```
-
-Desarrollador Full Stack de 19 años radicado en San Miguel, El Salvador. Apasionado por la creación de soluciones escalables, desde APIs REST, facturación electrónica (DTE) y arquitectura de bases de datos, hasta interfaces móviles multiplataforma y entornos de despliegue en la nube.
-
-```
